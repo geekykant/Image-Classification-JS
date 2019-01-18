@@ -23,8 +23,6 @@ function setup() {
   video = createCapture(VIDEO);
   video.hide();
   background(0);
-  // muffin = createImg("images/muffin.jpg", imageReady);
-  // muffin.hide();
   mobilenet = ml5.imageClassifier('MobileNet', video, modelReady);
 }
 
