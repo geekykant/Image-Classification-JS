@@ -21,9 +21,6 @@ function gotResults(err, result) {
     console.log("Error: " + err);
   } else {
     label = result;
-    if(label=="headphone"){
-      alert("you left!!");
-    }
     classifier.classify(gotResults);
   }
 }
