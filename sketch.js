@@ -1,20 +1,39 @@
 let mobilenet;
 let video;
 
+let classifier;
 let label = '';
+
+let bookButton;
+let baymaxButton;
+let trainButton;
 
 function modelReady() {
   console.log("Model is ready!!");
-  mobilenet.predict(video, gotResults);
 }
 
-function gotResults(err, results) {
+function videoReady() {
+  console.log("Video is ready!!");
+}
+
+function gotResults(err, result) {
   if (err) {
     console.log("Error: " + err);
   } else {
-    // console.log(results);
-    label = results[0].className;
-    mobilenet.predict(video, gotResults);
+    label = result;
+    if(label=="headphone"){
+      alert("you left!!");
+    }
+    classifier.classify(gotResults);
+  }
+}
+
+function whileTraining(loss) {
+  if (loss == null) {
+    console.log("Completed training!");
+    classifier.classify(gotResults);
+  } else {
+    console.log("Loss: " + loss);
   }
 }
 
@@ -23,9 +42,24 @@ function setup() {
   video = createCapture(VIDEO);
   video.hide();
   background(0);
-  mobilenet = ml5.imageClassifier('MobileNet', video, modelReady);
-}
+  mobilenet = ml5.featureExtractor('MobileNet', modelReady);
+  classifier = mobilenet.classification(video, videoReady);
 
+  bookButton = createButton('book');
+  bookButton.mousePressed(function() {
+    classifier.addImage('book');
+  });
+  baymaxButton = createButton('baymax');
+  baymaxButton.mousePressed(function() {
+    classifier.addImage('baymax');
+  });
+
+  trainButton = createButton('train');
+  trainButton.mousePressed(function() {
+    classifier.train(whileTraining);
+  });
+
+}
 
 function draw() {
   image(video, 0, 0);
