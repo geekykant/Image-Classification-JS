@@ -8,3 +8,6 @@ Here we are using the pre-trained model 'MobileNet' & let it autmatically learn 
 ## Built on
 - ML5JS & MobileNet model
 - P5JS
+
+## Working
+The slider provides values in range of 0 and 1 & attaches it to image and trains it. 
